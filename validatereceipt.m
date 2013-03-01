@@ -63,7 +63,6 @@ NSString *kReceiptInAppPurchaseDate				= @"PurchaseDate";
 NSString *kReceiptInAppOriginalTransactionIdentifier	= @"OriginalTransactionIdentifier";
 NSString *kReceiptInAppOriginalPurchaseDate		= @"OriginalPurchaseDate";
 
-
 NSData * appleRootCert(void)
 {
 	OSStatus status;
@@ -85,6 +84,8 @@ NSData * appleRootCert(void)
 #endif
 
 	SecKeychainSearchRef searchRef = nil;
+    // Warnings originate from Apple deprecating dynamic linking of Open SSL. You should statically link Open SSL to get rid of warnings.
+    // Or refactor this code to use common crypto. Or just ignore it and hope Open SSL will not change that much in the future
 	status = SecKeychainSearchCreateFromAttributes(searchList, kSecCertificateItemClass, NULL, &searchRef);
 	if(status){
 		VRCFRelease(searchRef);
