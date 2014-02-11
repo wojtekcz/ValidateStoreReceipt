@@ -580,7 +580,7 @@ extern const NSString * global_bundleIdentifier;
 // const NSString * global_bundleVersion = @"1.0.2";
 // const NSString * global_bundleIdentifier = @"com.example.SampleApp";
 
-BOOL validateReceiptAtPath(NSString * path)
+BOOL validateReceiptAtPath(NSString * path, BOOL checkBundleVersion)
 {
 	// it turns out, it's a bad idea, to use these two NSBundle methods in your app:
 	//
@@ -635,10 +635,14 @@ BOOL validateReceiptAtPath(NSString * path)
 	SHA1([input bytes], [input length], [hash mutableBytes]);
     
 	if ([bundleIdentifier isEqualToString:[receipt objectForKey:kReceiptBundleIdentifier]] &&
-        [bundleVersion isEqualToString:[receipt objectForKey:kReceiptVersion]] &&
         [hash isEqualToData:[receipt objectForKey:kReceiptHash]])
 	{
-		return YES;
+        if (!checkBundleVersion)
+            return YES;
+        else if ([bundleVersion isEqualToString:[receipt objectForKey:kReceiptVersion]])
+            return YES;
+        else
+            return NO;
 	}
     
 	return NO;

@@ -46,5 +46,5 @@ CFDataRef copy_mac_address(void);
 NSArray * parseInAppPurchasesData(NSData * inappData);
 NSDictionary * dictionaryWithAppStoreReceipt(NSString * path);
 NSArray* obtainInAppPurchases(NSString *receiptPath);
-BOOL validateReceiptAtPath(NSString * path);
+BOOL validateReceiptAtPath(NSString * path, BOOL checkBundleVersion);
 NSData * appleRootCert(void);
